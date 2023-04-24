@@ -1,0 +1,2 @@
+Skeleton 5
+d6f3d"Int"d"DataTypes"d"TextIO"Caä¢RationalLrVals"jh1aä¢Token"gp2ä¢LrParser"ÿ6gp1e"RationalLrValsFun"aä¢RationalLex"jh1aä¢Tokens"gp2ÿ!ÿ8gp1e"RationalLexFun"ad"RationalParser"jh3aä¢ParserData"gp2ÿ!ÿ‚3ad"Lex"gp1ÿ&aÿgp1ÿgp1e"JoinWithArg"aã¢RATPL0"è0ad"Ratpl0"jÿƒ:gp1ÿƒ1N

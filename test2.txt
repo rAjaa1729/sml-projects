@@ -1,0 +1,22 @@
+integer factorialArg;
+integer factorialResult;
+
+procedure factorial
+    integer i,acc;
+    {
+        i:=factorialArg;
+        acc:=1;
+        while(i>0)do
+        {
+            acc:=acc*i;
+            i := i - 1;
+        }od;
+        factorialResult:=acc;
+    };
+
+{
+    read (factorialArg);
+    call factorial;
+    print(factorialResult);
+}
+CM.make "rational_PL0.cm";

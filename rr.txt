@@ -1,0 +1,4 @@
+| TOKER_ADD TOKER_BIGINT (NUM(TOKER_BIGINT))
+| TOKER_ADD TOKER_RATIONAL_NUM (RAT_NUM(TOKER_RATIONAL_NUM))
+"(*"[^]*"*)" => (continue());
+"("([^] | ""+ [^")"]) "*)" => (continue ());

@@ -1,0 +1,2620 @@
+
+state 0:
+
+	prog : . block 
+
+	TOKER_RATIONAL	shift 7
+	TOKER_INTEGER	shift 6
+	TOKER_BOOLEAN	shift 5
+	TOKER_PROCEDURE	reduce by rule 4
+	TOKER_LBRACE	reduce by rule 4
+
+	block	goto 4
+	decseq	goto 3
+	varlist	goto 2
+	var	goto 1
+	prog	goto 112
+
+	.	error
+
+
+state 1:
+
+	varlist : var . TOKER_SEMICOLON varlist 
+
+	TOKER_SEMICOLON	shift 8
+
+
+	.	error
+
+
+state 2:
+
+	decseq : varlist . proclist 
+
+	TOKER_PROCEDURE	shift 11
+	TOKER_LBRACE	reduce by rule 11
+
+	proclist	goto 10
+	proc	goto 9
+
+	.	error
+
+
+state 3:
+
+	block : decseq . cmdseq 
+
+	TOKER_LBRACE	shift 13
+
+	cmdseq	goto 12
+
+	.	error
+
+
+state 4:
+
+	prog : block .  (reduce by rule 0)
+
+	TOKER_EOF	reduce by rule 0
+
+
+	.	error
+
+
+state 5:
+
+	var : TOKER_BOOLEAN . var_row 
+
+	TOKER_ID	shift 15
+
+	var_row	goto 14
+
+	.	error
+
+
+state 6:
+
+	var : TOKER_INTEGER . var_row 
+
+	TOKER_ID	shift 15
+
+	var_row	goto 16
+
+	.	error
+
+
+state 7:
+
+	var : TOKER_RATIONAL . var_row 
+
+	TOKER_ID	shift 15
+
+	var_row	goto 17
+
+	.	error
+
+
+state 8:
+
+	varlist : var TOKER_SEMICOLON . varlist 
+
+	TOKER_RATIONAL	shift 7
+	TOKER_INTEGER	shift 6
+	TOKER_BOOLEAN	shift 5
+	TOKER_PROCEDURE	reduce by rule 4
+	TOKER_LBRACE	reduce by rule 4
+
+	varlist	goto 18
+	var	goto 1
+
+	.	error
+
+
+state 9:
+
+	proclist : proc . TOKER_SEMICOLON proclist 
+
+	TOKER_SEMICOLON	shift 19
+
+
+	.	error
+
+
+state 10:
+
+	decseq : varlist proclist .  (reduce by rule 2)
+
+	TOKER_LBRACE	reduce by rule 2
+
+
+	.	error
+
+
+state 11:
+
+	proc : TOKER_PROCEDURE . TOKER_ID block 
+
+	TOKER_ID	shift 20
+
+
+	.	error
+
+
+state 12:
+
+	block : decseq cmdseq .  (reduce by rule 1)
+
+	TOKER_SEMICOLON	reduce by rule 1
+	TOKER_EOF	reduce by rule 1
+
+
+	.	error
+
+
+state 13:
+
+	cmdseq : TOKER_LBRACE . cmdlist TOKER_RBRACE 
+
+	TOKER_IF	shift 28
+	TOKER_WHILE	shift 27
+	TOKER_PRINT	shift 26
+	TOKER_READ	shift 25
+	TOKER_CALL	shift 24
+	TOKER_RBRACE	reduce by rule 15
+	TOKER_ID	shift 23
+
+	cmdlist	goto 22
+	cmd	goto 21
+
+	.	error
+
+
+state 14:
+
+	var : TOKER_BOOLEAN var_row .  (reduce by rule 6)
+
+	TOKER_SEMICOLON	reduce by rule 6
+
+
+	.	error
+
+
+state 15:
+
+	var_row : TOKER_ID . TOKER_COMMA var_row 
+	var_row : TOKER_ID .  (reduce by rule 9)
+
+	TOKER_SEMICOLON	reduce by rule 9
+	TOKER_COMMA	shift 29
+
+
+	.	error
+
+
+state 16:
+
+	var : TOKER_INTEGER var_row .  (reduce by rule 5)
+
+	TOKER_SEMICOLON	reduce by rule 5
+
+
+	.	error
+
+
+state 17:
+
+	var : TOKER_RATIONAL var_row .  (reduce by rule 7)
+
+	TOKER_SEMICOLON	reduce by rule 7
+
+
+	.	error
+
+
+state 18:
+
+	varlist : var TOKER_SEMICOLON varlist .  (reduce by rule 3)
+
+	TOKER_PROCEDURE	reduce by rule 3
+	TOKER_LBRACE	reduce by rule 3
+
+
+	.	error
+
+
+state 19:
+
+	proclist : proc TOKER_SEMICOLON . proclist 
+
+	TOKER_PROCEDURE	shift 11
+	TOKER_LBRACE	reduce by rule 11
+
+	proclist	goto 30
+	proc	goto 9
+
+	.	error
+
+
+state 20:
+
+	proc : TOKER_PROCEDURE TOKER_ID . block 
+
+	TOKER_RATIONAL	shift 7
+	TOKER_INTEGER	shift 6
+	TOKER_BOOLEAN	shift 5
+	TOKER_PROCEDURE	reduce by rule 4
+	TOKER_LBRACE	reduce by rule 4
+
+	block	goto 31
+	decseq	goto 3
+	varlist	goto 2
+	var	goto 1
+
+	.	error
+
+
+state 21:
+
+	cmdlist : cmd . TOKER_SEMICOLON cmdlist 
+
+	TOKER_SEMICOLON	shift 32
+
+
+	.	error
+
+
+state 22:
+
+	cmdseq : TOKER_LBRACE cmdlist . TOKER_RBRACE 
+
+	TOKER_RBRACE	shift 33
+
+
+	.	error
+
+
+state 23:
+
+	cmd : TOKER_ID . TOKER_ASSIGN expr 
+
+	TOKER_ASSIGN	shift 34
+
+
+	.	error
+
+
+state 24:
+
+	cmd : TOKER_CALL . TOKER_ID 
+
+	TOKER_ID	shift 35
+
+
+	.	error
+
+
+state 25:
+
+	cmd : TOKER_READ . TOKER_LPAREN TOKER_ID TOKER_RPAREN 
+
+	TOKER_LPAREN	shift 36
+
+
+	.	error
+
+
+state 26:
+
+	cmd : TOKER_PRINT . TOKER_LPAREN expr TOKER_RPAREN 
+
+	TOKER_LPAREN	shift 37
+
+
+	.	error
+
+
+state 27:
+
+	cmd : TOKER_WHILE . expr TOKER_DO cmdseq TOKER_OD 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 38
+
+	.	error
+
+
+state 28:
+
+	cmd : TOKER_IF . expr TOKER_THEN cmdseq TOKER_ELSE cmdseq TOKER_FI 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 49
+
+	.	error
+
+
+state 29:
+
+	var_row : TOKER_ID TOKER_COMMA . var_row 
+
+	TOKER_ID	shift 15
+
+	var_row	goto 50
+
+	.	error
+
+
+state 30:
+
+	proclist : proc TOKER_SEMICOLON proclist .  (reduce by rule 10)
+
+	TOKER_LBRACE	reduce by rule 10
+
+
+	.	error
+
+
+state 31:
+
+	proc : TOKER_PROCEDURE TOKER_ID block .  (reduce by rule 12)
+
+	TOKER_SEMICOLON	reduce by rule 12
+
+
+	.	error
+
+
+state 32:
+
+	cmdlist : cmd TOKER_SEMICOLON . cmdlist 
+
+	TOKER_IF	shift 28
+	TOKER_WHILE	shift 27
+	TOKER_PRINT	shift 26
+	TOKER_READ	shift 25
+	TOKER_CALL	shift 24
+	TOKER_RBRACE	reduce by rule 15
+	TOKER_ID	shift 23
+
+	cmdlist	goto 51
+	cmd	goto 21
+
+	.	error
+
+
+state 33:
+
+	cmdseq : TOKER_LBRACE cmdlist TOKER_RBRACE .  (reduce by rule 13)
+
+	TOKER_ELSE	reduce by rule 13
+	TOKER_FI	reduce by rule 13
+	TOKER_OD	reduce by rule 13
+	TOKER_SEMICOLON	reduce by rule 13
+	TOKER_EOF	reduce by rule 13
+
+
+	.	error
+
+
+state 34:
+
+	cmd : TOKER_ID TOKER_ASSIGN . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 52
+
+	.	error
+
+
+state 35:
+
+	cmd : TOKER_CALL TOKER_ID .  (reduce by rule 17)
+
+	TOKER_SEMICOLON	reduce by rule 17
+
+
+	.	error
+
+
+state 36:
+
+	cmd : TOKER_READ TOKER_LPAREN . TOKER_ID TOKER_RPAREN 
+
+	TOKER_ID	shift 53
+
+
+	.	error
+
+
+state 37:
+
+	cmd : TOKER_PRINT TOKER_LPAREN . expr TOKER_RPAREN 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 54
+
+	.	error
+
+
+state 38:
+
+	cmd : TOKER_WHILE expr . TOKER_DO cmdseq TOKER_OD 
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_DO	shift 72
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+
+
+	.	error
+
+
+state 39:
+
+	expr : TOKER_RATIONAL_NUM .  (reduce by rule 28)
+
+	TOKER_THEN	reduce by rule 28
+	TOKER_DO	reduce by rule 28
+	TOKER_RAT_ADD	reduce by rule 28
+	TOKER_RAT_SUB	reduce by rule 28
+	TOKER_RAT_MUL	reduce by rule 28
+	TOKER_RAT_DIV	reduce by rule 28
+	TOKER_ADD	reduce by rule 28
+	TOKER_SUB	reduce by rule 28
+	TOKER_MUL	reduce by rule 28
+	TOKER_DIV	reduce by rule 28
+	TOKER_MOD	reduce by rule 28
+	TOKER_AND	reduce by rule 28
+	TOKER_OR	reduce by rule 28
+	TOKER_EQ	reduce by rule 28
+	TOKER_NE	reduce by rule 28
+	TOKER_LT	reduce by rule 28
+	TOKER_LE	reduce by rule 28
+	TOKER_GT	reduce by rule 28
+	TOKER_GE	reduce by rule 28
+	TOKER_RPAREN	reduce by rule 28
+	TOKER_SEMICOLON	reduce by rule 28
+	TOKER_COMMA	reduce by rule 28
+
+
+	.	error
+
+
+state 40:
+
+	expr : TOKER_BIGINT .  (reduce by rule 37)
+
+	TOKER_THEN	reduce by rule 37
+	TOKER_DO	reduce by rule 37
+	TOKER_RAT_ADD	reduce by rule 37
+	TOKER_RAT_SUB	reduce by rule 37
+	TOKER_RAT_MUL	reduce by rule 37
+	TOKER_RAT_DIV	reduce by rule 37
+	TOKER_ADD	reduce by rule 37
+	TOKER_SUB	reduce by rule 37
+	TOKER_MUL	reduce by rule 37
+	TOKER_DIV	reduce by rule 37
+	TOKER_MOD	reduce by rule 37
+	TOKER_AND	reduce by rule 37
+	TOKER_OR	reduce by rule 37
+	TOKER_EQ	reduce by rule 37
+	TOKER_NE	reduce by rule 37
+	TOKER_LT	reduce by rule 37
+	TOKER_LE	reduce by rule 37
+	TOKER_GT	reduce by rule 37
+	TOKER_GE	reduce by rule 37
+	TOKER_RPAREN	reduce by rule 37
+	TOKER_SEMICOLON	reduce by rule 37
+	TOKER_COMMA	reduce by rule 37
+
+
+	.	error
+
+
+state 41:
+
+	expr : TOKER_ID .  (reduce by rule 27)
+
+	TOKER_THEN	reduce by rule 27
+	TOKER_DO	reduce by rule 27
+	TOKER_RAT_ADD	reduce by rule 27
+	TOKER_RAT_SUB	reduce by rule 27
+	TOKER_RAT_MUL	reduce by rule 27
+	TOKER_RAT_DIV	reduce by rule 27
+	TOKER_ADD	reduce by rule 27
+	TOKER_SUB	reduce by rule 27
+	TOKER_MUL	reduce by rule 27
+	TOKER_DIV	reduce by rule 27
+	TOKER_MOD	reduce by rule 27
+	TOKER_AND	reduce by rule 27
+	TOKER_OR	reduce by rule 27
+	TOKER_EQ	reduce by rule 27
+	TOKER_NE	reduce by rule 27
+	TOKER_LT	reduce by rule 27
+	TOKER_LE	reduce by rule 27
+	TOKER_GT	reduce by rule 27
+	TOKER_GE	reduce by rule 27
+	TOKER_RPAREN	reduce by rule 27
+	TOKER_SEMICOLON	reduce by rule 27
+	TOKER_COMMA	reduce by rule 27
+
+
+	.	error
+
+
+state 42:
+
+	expr : TOKER_LPAREN . expr TOKER_RPAREN 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 73
+
+	.	error
+
+
+state 43:
+
+	expr : TOKER_NEGATION . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 74
+
+	.	error
+
+
+state 44:
+
+	expr : TOKER_FROM_DECIMAL . TOKER_LPAREN expr TOKER_RPAREN 
+
+	TOKER_LPAREN	shift 75
+
+
+	.	error
+
+
+state 45:
+
+	expr : TOKER_MAKE_RAT . TOKER_LPAREN expr TOKER_COMMA expr TOKER_RPAREN 
+
+	TOKER_LPAREN	shift 76
+
+
+	.	error
+
+
+state 46:
+
+	expr : TOKER_UMINUS . TOKER_RATIONAL_NUM 
+	expr : TOKER_UMINUS . TOKER_BIGINT 
+
+	TOKER_BIGINT	shift 78
+	TOKER_RATIONAL_NUM	shift 77
+
+
+	.	error
+
+
+state 47:
+
+	expr : TOKER_FALSE .  (reduce by rule 48)
+
+	TOKER_THEN	reduce by rule 48
+	TOKER_DO	reduce by rule 48
+	TOKER_RAT_ADD	reduce by rule 48
+	TOKER_RAT_SUB	reduce by rule 48
+	TOKER_RAT_MUL	reduce by rule 48
+	TOKER_RAT_DIV	reduce by rule 48
+	TOKER_ADD	reduce by rule 48
+	TOKER_SUB	reduce by rule 48
+	TOKER_MUL	reduce by rule 48
+	TOKER_DIV	reduce by rule 48
+	TOKER_MOD	reduce by rule 48
+	TOKER_AND	reduce by rule 48
+	TOKER_OR	reduce by rule 48
+	TOKER_EQ	reduce by rule 48
+	TOKER_NE	reduce by rule 48
+	TOKER_LT	reduce by rule 48
+	TOKER_LE	reduce by rule 48
+	TOKER_GT	reduce by rule 48
+	TOKER_GE	reduce by rule 48
+	TOKER_RPAREN	reduce by rule 48
+	TOKER_SEMICOLON	reduce by rule 48
+	TOKER_COMMA	reduce by rule 48
+
+
+	.	error
+
+
+state 48:
+
+	expr : TOKER_TRUE .  (reduce by rule 49)
+
+	TOKER_THEN	reduce by rule 49
+	TOKER_DO	reduce by rule 49
+	TOKER_RAT_ADD	reduce by rule 49
+	TOKER_RAT_SUB	reduce by rule 49
+	TOKER_RAT_MUL	reduce by rule 49
+	TOKER_RAT_DIV	reduce by rule 49
+	TOKER_ADD	reduce by rule 49
+	TOKER_SUB	reduce by rule 49
+	TOKER_MUL	reduce by rule 49
+	TOKER_DIV	reduce by rule 49
+	TOKER_MOD	reduce by rule 49
+	TOKER_AND	reduce by rule 49
+	TOKER_OR	reduce by rule 49
+	TOKER_EQ	reduce by rule 49
+	TOKER_NE	reduce by rule 49
+	TOKER_LT	reduce by rule 49
+	TOKER_LE	reduce by rule 49
+	TOKER_GT	reduce by rule 49
+	TOKER_GE	reduce by rule 49
+	TOKER_RPAREN	reduce by rule 49
+	TOKER_SEMICOLON	reduce by rule 49
+	TOKER_COMMA	reduce by rule 49
+
+
+	.	error
+
+
+state 49:
+
+	cmd : TOKER_IF expr . TOKER_THEN cmdseq TOKER_ELSE cmdseq TOKER_FI 
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	shift 79
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+
+
+	.	error
+
+
+state 50:
+
+	var_row : TOKER_ID TOKER_COMMA var_row .  (reduce by rule 8)
+
+	TOKER_SEMICOLON	reduce by rule 8
+
+
+	.	error
+
+
+state 51:
+
+	cmdlist : cmd TOKER_SEMICOLON cmdlist .  (reduce by rule 14)
+
+	TOKER_RBRACE	reduce by rule 14
+
+
+	.	error
+
+
+state 52:
+
+	cmd : TOKER_ID TOKER_ASSIGN expr .  (reduce by rule 16)
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_SEMICOLON	reduce by rule 16
+
+
+	.	error
+
+
+state 53:
+
+	cmd : TOKER_READ TOKER_LPAREN TOKER_ID . TOKER_RPAREN 
+
+	TOKER_RPAREN	shift 80
+
+
+	.	error
+
+
+state 54:
+
+	cmd : TOKER_PRINT TOKER_LPAREN expr . TOKER_RPAREN 
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	shift 81
+
+
+	.	error
+
+
+state 55:
+
+	expr : expr TOKER_GE . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 82
+
+	.	error
+
+
+state 56:
+
+	expr : expr TOKER_GT . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 83
+
+	.	error
+
+
+state 57:
+
+	expr : expr TOKER_LE . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 84
+
+	.	error
+
+
+state 58:
+
+	expr : expr TOKER_LT . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 85
+
+	.	error
+
+
+state 59:
+
+	expr : expr TOKER_NE . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 86
+
+	.	error
+
+
+state 60:
+
+	expr : expr TOKER_EQ . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 87
+
+	.	error
+
+
+state 61:
+
+	expr : expr TOKER_OR . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 88
+
+	.	error
+
+
+state 62:
+
+	expr : expr TOKER_AND . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 89
+
+	.	error
+
+
+state 63:
+
+	expr : expr TOKER_MOD . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 90
+
+	.	error
+
+
+state 64:
+
+	expr : expr TOKER_DIV . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 91
+
+	.	error
+
+
+state 65:
+
+	expr : expr TOKER_MUL . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 92
+
+	.	error
+
+
+state 66:
+
+	expr : expr TOKER_SUB . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 93
+
+	.	error
+
+
+state 67:
+
+	expr : expr TOKER_ADD . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 94
+
+	.	error
+
+
+state 68:
+
+	expr : expr TOKER_RAT_DIV . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 95
+
+	.	error
+
+
+state 69:
+
+	expr : expr TOKER_RAT_MUL . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 96
+
+	.	error
+
+
+state 70:
+
+	expr : expr TOKER_RAT_SUB . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 97
+
+	.	error
+
+
+state 71:
+
+	expr : expr TOKER_RAT_ADD . expr 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 98
+
+	.	error
+
+
+state 72:
+
+	cmd : TOKER_WHILE expr TOKER_DO . cmdseq TOKER_OD 
+
+	TOKER_LBRACE	shift 13
+
+	cmdseq	goto 99
+
+	.	error
+
+
+state 73:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : TOKER_LPAREN expr . TOKER_RPAREN 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	shift 100
+
+
+	.	error
+
+
+state 74:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : TOKER_NEGATION expr .  (reduce by rule 39)
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 39
+	TOKER_DO	reduce by rule 39
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 39
+	TOKER_OR	reduce by rule 39
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	reduce by rule 39
+	TOKER_SEMICOLON	reduce by rule 39
+	TOKER_COMMA	reduce by rule 39
+
+
+	.	error
+
+
+state 75:
+
+	expr : TOKER_FROM_DECIMAL TOKER_LPAREN . expr TOKER_RPAREN 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 101
+
+	.	error
+
+
+state 76:
+
+	expr : TOKER_MAKE_RAT TOKER_LPAREN . expr TOKER_COMMA expr TOKER_RPAREN 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 102
+
+	.	error
+
+
+state 77:
+
+	expr : TOKER_UMINUS TOKER_RATIONAL_NUM .  (reduce by rule 29)
+
+	TOKER_THEN	reduce by rule 29
+	TOKER_DO	reduce by rule 29
+	TOKER_RAT_ADD	reduce by rule 29
+	TOKER_RAT_SUB	reduce by rule 29
+	TOKER_RAT_MUL	reduce by rule 29
+	TOKER_RAT_DIV	reduce by rule 29
+	TOKER_ADD	reduce by rule 29
+	TOKER_SUB	reduce by rule 29
+	TOKER_MUL	reduce by rule 29
+	TOKER_DIV	reduce by rule 29
+	TOKER_MOD	reduce by rule 29
+	TOKER_AND	reduce by rule 29
+	TOKER_OR	reduce by rule 29
+	TOKER_EQ	reduce by rule 29
+	TOKER_NE	reduce by rule 29
+	TOKER_LT	reduce by rule 29
+	TOKER_LE	reduce by rule 29
+	TOKER_GT	reduce by rule 29
+	TOKER_GE	reduce by rule 29
+	TOKER_RPAREN	reduce by rule 29
+	TOKER_SEMICOLON	reduce by rule 29
+	TOKER_COMMA	reduce by rule 29
+
+
+	.	error
+
+
+state 78:
+
+	expr : TOKER_UMINUS TOKER_BIGINT .  (reduce by rule 38)
+
+	TOKER_THEN	reduce by rule 38
+	TOKER_DO	reduce by rule 38
+	TOKER_RAT_ADD	reduce by rule 38
+	TOKER_RAT_SUB	reduce by rule 38
+	TOKER_RAT_MUL	reduce by rule 38
+	TOKER_RAT_DIV	reduce by rule 38
+	TOKER_ADD	reduce by rule 38
+	TOKER_SUB	reduce by rule 38
+	TOKER_MUL	reduce by rule 38
+	TOKER_DIV	reduce by rule 38
+	TOKER_MOD	reduce by rule 38
+	TOKER_AND	reduce by rule 38
+	TOKER_OR	reduce by rule 38
+	TOKER_EQ	reduce by rule 38
+	TOKER_NE	reduce by rule 38
+	TOKER_LT	reduce by rule 38
+	TOKER_LE	reduce by rule 38
+	TOKER_GT	reduce by rule 38
+	TOKER_GE	reduce by rule 38
+	TOKER_RPAREN	reduce by rule 38
+	TOKER_SEMICOLON	reduce by rule 38
+	TOKER_COMMA	reduce by rule 38
+
+
+	.	error
+
+
+state 79:
+
+	cmd : TOKER_IF expr TOKER_THEN . cmdseq TOKER_ELSE cmdseq TOKER_FI 
+
+	TOKER_LBRACE	shift 13
+
+	cmdseq	goto 103
+
+	.	error
+
+
+state 80:
+
+	cmd : TOKER_READ TOKER_LPAREN TOKER_ID TOKER_RPAREN .  (reduce by rule 18)
+
+	TOKER_SEMICOLON	reduce by rule 18
+
+
+	.	error
+
+
+state 81:
+
+	cmd : TOKER_PRINT TOKER_LPAREN expr TOKER_RPAREN .  (reduce by rule 19)
+
+	TOKER_SEMICOLON	reduce by rule 19
+
+
+	.	error
+
+
+state 82:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr TOKER_GE expr .  (reduce by rule 45)
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 45
+	TOKER_DO	reduce by rule 45
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 45
+	TOKER_OR	reduce by rule 45
+	TOKER_EQ	reduce by rule 45
+	TOKER_NE	reduce by rule 45
+	TOKER_LT	reduce by rule 45
+	TOKER_LE	reduce by rule 45
+	TOKER_GT	reduce by rule 45
+	TOKER_GE	reduce by rule 45
+	TOKER_RPAREN	reduce by rule 45
+	TOKER_SEMICOLON	reduce by rule 45
+	TOKER_COMMA	reduce by rule 45
+
+
+	.	error
+
+
+state 83:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr TOKER_GT expr .  (reduce by rule 44)
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 44
+	TOKER_DO	reduce by rule 44
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 44
+	TOKER_OR	reduce by rule 44
+	TOKER_EQ	reduce by rule 44
+	TOKER_NE	reduce by rule 44
+	TOKER_LT	reduce by rule 44
+	TOKER_LE	reduce by rule 44
+	TOKER_GT	reduce by rule 44
+	TOKER_GE	reduce by rule 44
+	TOKER_RPAREN	reduce by rule 44
+	TOKER_SEMICOLON	reduce by rule 44
+	TOKER_COMMA	reduce by rule 44
+
+
+	.	error
+
+
+state 84:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr TOKER_LE expr .  (reduce by rule 43)
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 43
+	TOKER_DO	reduce by rule 43
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 43
+	TOKER_OR	reduce by rule 43
+	TOKER_EQ	reduce by rule 43
+	TOKER_NE	reduce by rule 43
+	TOKER_LT	reduce by rule 43
+	TOKER_LE	reduce by rule 43
+	TOKER_GT	reduce by rule 43
+	TOKER_GE	reduce by rule 43
+	TOKER_RPAREN	reduce by rule 43
+	TOKER_SEMICOLON	reduce by rule 43
+	TOKER_COMMA	reduce by rule 43
+
+
+	.	error
+
+
+state 85:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr TOKER_LT expr .  (reduce by rule 42)
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 42
+	TOKER_DO	reduce by rule 42
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 42
+	TOKER_OR	reduce by rule 42
+	TOKER_EQ	reduce by rule 42
+	TOKER_NE	reduce by rule 42
+	TOKER_LT	reduce by rule 42
+	TOKER_LE	reduce by rule 42
+	TOKER_GT	reduce by rule 42
+	TOKER_GE	reduce by rule 42
+	TOKER_RPAREN	reduce by rule 42
+	TOKER_SEMICOLON	reduce by rule 42
+	TOKER_COMMA	reduce by rule 42
+
+
+	.	error
+
+
+state 86:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+	expr : expr TOKER_NE expr .  (reduce by rule 47)
+
+	TOKER_THEN	reduce by rule 47
+	TOKER_DO	reduce by rule 47
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 47
+	TOKER_OR	reduce by rule 47
+	TOKER_EQ	reduce by rule 47
+	TOKER_NE	reduce by rule 47
+	TOKER_LT	reduce by rule 47
+	TOKER_LE	reduce by rule 47
+	TOKER_GT	reduce by rule 47
+	TOKER_GE	reduce by rule 47
+	TOKER_RPAREN	reduce by rule 47
+	TOKER_SEMICOLON	reduce by rule 47
+	TOKER_COMMA	reduce by rule 47
+
+
+	.	error
+
+
+state 87:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr TOKER_EQ expr .  (reduce by rule 46)
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 46
+	TOKER_DO	reduce by rule 46
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 46
+	TOKER_OR	reduce by rule 46
+	TOKER_EQ	reduce by rule 46
+	TOKER_NE	reduce by rule 46
+	TOKER_LT	reduce by rule 46
+	TOKER_LE	reduce by rule 46
+	TOKER_GT	reduce by rule 46
+	TOKER_GE	reduce by rule 46
+	TOKER_RPAREN	reduce by rule 46
+	TOKER_SEMICOLON	reduce by rule 46
+	TOKER_COMMA	reduce by rule 46
+
+
+	.	error
+
+
+state 88:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr TOKER_OR expr .  (reduce by rule 41)
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 41
+	TOKER_DO	reduce by rule 41
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	reduce by rule 41
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	reduce by rule 41
+	TOKER_SEMICOLON	reduce by rule 41
+	TOKER_COMMA	reduce by rule 41
+
+
+	.	error
+
+
+state 89:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr TOKER_AND expr .  (reduce by rule 40)
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 40
+	TOKER_DO	reduce by rule 40
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 40
+	TOKER_OR	reduce by rule 40
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	reduce by rule 40
+	TOKER_SEMICOLON	reduce by rule 40
+	TOKER_COMMA	reduce by rule 40
+
+
+	.	error
+
+
+state 90:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr TOKER_MOD expr .  (reduce by rule 36)
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 36
+	TOKER_DO	reduce by rule 36
+	TOKER_RAT_ADD	reduce by rule 36
+	TOKER_RAT_SUB	reduce by rule 36
+	TOKER_RAT_MUL	reduce by rule 36
+	TOKER_RAT_DIV	reduce by rule 36
+	TOKER_ADD	reduce by rule 36
+	TOKER_SUB	reduce by rule 36
+	TOKER_MUL	reduce by rule 36
+	TOKER_DIV	reduce by rule 36
+	TOKER_MOD	reduce by rule 36
+	TOKER_AND	reduce by rule 36
+	TOKER_OR	reduce by rule 36
+	TOKER_EQ	reduce by rule 36
+	TOKER_NE	reduce by rule 36
+	TOKER_LT	reduce by rule 36
+	TOKER_LE	reduce by rule 36
+	TOKER_GT	reduce by rule 36
+	TOKER_GE	reduce by rule 36
+	TOKER_RPAREN	reduce by rule 36
+	TOKER_SEMICOLON	reduce by rule 36
+	TOKER_COMMA	reduce by rule 36
+
+
+	.	error
+
+
+state 91:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr TOKER_DIV expr .  (reduce by rule 35)
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 35
+	TOKER_DO	reduce by rule 35
+	TOKER_RAT_ADD	reduce by rule 35
+	TOKER_RAT_SUB	reduce by rule 35
+	TOKER_RAT_MUL	reduce by rule 35
+	TOKER_RAT_DIV	reduce by rule 35
+	TOKER_ADD	reduce by rule 35
+	TOKER_SUB	reduce by rule 35
+	TOKER_MUL	reduce by rule 35
+	TOKER_DIV	reduce by rule 35
+	TOKER_MOD	reduce by rule 35
+	TOKER_AND	reduce by rule 35
+	TOKER_OR	reduce by rule 35
+	TOKER_EQ	reduce by rule 35
+	TOKER_NE	reduce by rule 35
+	TOKER_LT	reduce by rule 35
+	TOKER_LE	reduce by rule 35
+	TOKER_GT	reduce by rule 35
+	TOKER_GE	reduce by rule 35
+	TOKER_RPAREN	reduce by rule 35
+	TOKER_SEMICOLON	reduce by rule 35
+	TOKER_COMMA	reduce by rule 35
+
+
+	.	error
+
+
+state 92:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr TOKER_MUL expr .  (reduce by rule 34)
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 34
+	TOKER_DO	reduce by rule 34
+	TOKER_RAT_ADD	reduce by rule 34
+	TOKER_RAT_SUB	reduce by rule 34
+	TOKER_RAT_MUL	reduce by rule 34
+	TOKER_RAT_DIV	reduce by rule 34
+	TOKER_ADD	reduce by rule 34
+	TOKER_SUB	reduce by rule 34
+	TOKER_MUL	reduce by rule 34
+	TOKER_DIV	reduce by rule 34
+	TOKER_MOD	reduce by rule 34
+	TOKER_AND	reduce by rule 34
+	TOKER_OR	reduce by rule 34
+	TOKER_EQ	reduce by rule 34
+	TOKER_NE	reduce by rule 34
+	TOKER_LT	reduce by rule 34
+	TOKER_LE	reduce by rule 34
+	TOKER_GT	reduce by rule 34
+	TOKER_GE	reduce by rule 34
+	TOKER_RPAREN	reduce by rule 34
+	TOKER_SEMICOLON	reduce by rule 34
+	TOKER_COMMA	reduce by rule 34
+
+
+	.	error
+
+
+state 93:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr TOKER_SUB expr .  (reduce by rule 33)
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 33
+	TOKER_DO	reduce by rule 33
+	TOKER_RAT_ADD	reduce by rule 33
+	TOKER_RAT_SUB	reduce by rule 33
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	reduce by rule 33
+	TOKER_SUB	reduce by rule 33
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 33
+	TOKER_OR	reduce by rule 33
+	TOKER_EQ	reduce by rule 33
+	TOKER_NE	reduce by rule 33
+	TOKER_LT	reduce by rule 33
+	TOKER_LE	reduce by rule 33
+	TOKER_GT	reduce by rule 33
+	TOKER_GE	reduce by rule 33
+	TOKER_RPAREN	reduce by rule 33
+	TOKER_SEMICOLON	reduce by rule 33
+	TOKER_COMMA	reduce by rule 33
+
+
+	.	error
+
+
+state 94:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr TOKER_ADD expr .  (reduce by rule 32)
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 32
+	TOKER_DO	reduce by rule 32
+	TOKER_RAT_ADD	reduce by rule 32
+	TOKER_RAT_SUB	reduce by rule 32
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	reduce by rule 32
+	TOKER_SUB	reduce by rule 32
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 32
+	TOKER_OR	reduce by rule 32
+	TOKER_EQ	reduce by rule 32
+	TOKER_NE	reduce by rule 32
+	TOKER_LT	reduce by rule 32
+	TOKER_LE	reduce by rule 32
+	TOKER_GT	reduce by rule 32
+	TOKER_GE	reduce by rule 32
+	TOKER_RPAREN	reduce by rule 32
+	TOKER_SEMICOLON	reduce by rule 32
+	TOKER_COMMA	reduce by rule 32
+
+
+	.	error
+
+
+state 95:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr TOKER_RAT_DIV expr .  (reduce by rule 25)
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 25
+	TOKER_DO	reduce by rule 25
+	TOKER_RAT_ADD	reduce by rule 25
+	TOKER_RAT_SUB	reduce by rule 25
+	TOKER_RAT_MUL	reduce by rule 25
+	TOKER_RAT_DIV	reduce by rule 25
+	TOKER_ADD	reduce by rule 25
+	TOKER_SUB	reduce by rule 25
+	TOKER_MUL	reduce by rule 25
+	TOKER_DIV	reduce by rule 25
+	TOKER_MOD	reduce by rule 25
+	TOKER_AND	reduce by rule 25
+	TOKER_OR	reduce by rule 25
+	TOKER_EQ	reduce by rule 25
+	TOKER_NE	reduce by rule 25
+	TOKER_LT	reduce by rule 25
+	TOKER_LE	reduce by rule 25
+	TOKER_GT	reduce by rule 25
+	TOKER_GE	reduce by rule 25
+	TOKER_RPAREN	reduce by rule 25
+	TOKER_SEMICOLON	reduce by rule 25
+	TOKER_COMMA	reduce by rule 25
+
+
+	.	error
+
+
+state 96:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr TOKER_RAT_MUL expr .  (reduce by rule 24)
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 24
+	TOKER_DO	reduce by rule 24
+	TOKER_RAT_ADD	reduce by rule 24
+	TOKER_RAT_SUB	reduce by rule 24
+	TOKER_RAT_MUL	reduce by rule 24
+	TOKER_RAT_DIV	reduce by rule 24
+	TOKER_ADD	reduce by rule 24
+	TOKER_SUB	reduce by rule 24
+	TOKER_MUL	reduce by rule 24
+	TOKER_DIV	reduce by rule 24
+	TOKER_MOD	reduce by rule 24
+	TOKER_AND	reduce by rule 24
+	TOKER_OR	reduce by rule 24
+	TOKER_EQ	reduce by rule 24
+	TOKER_NE	reduce by rule 24
+	TOKER_LT	reduce by rule 24
+	TOKER_LE	reduce by rule 24
+	TOKER_GT	reduce by rule 24
+	TOKER_GE	reduce by rule 24
+	TOKER_RPAREN	reduce by rule 24
+	TOKER_SEMICOLON	reduce by rule 24
+	TOKER_COMMA	reduce by rule 24
+
+
+	.	error
+
+
+state 97:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr TOKER_RAT_SUB expr .  (reduce by rule 23)
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 23
+	TOKER_DO	reduce by rule 23
+	TOKER_RAT_ADD	reduce by rule 23
+	TOKER_RAT_SUB	reduce by rule 23
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	reduce by rule 23
+	TOKER_SUB	reduce by rule 23
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 23
+	TOKER_OR	reduce by rule 23
+	TOKER_EQ	reduce by rule 23
+	TOKER_NE	reduce by rule 23
+	TOKER_LT	reduce by rule 23
+	TOKER_LE	reduce by rule 23
+	TOKER_GT	reduce by rule 23
+	TOKER_GE	reduce by rule 23
+	TOKER_RPAREN	reduce by rule 23
+	TOKER_SEMICOLON	reduce by rule 23
+	TOKER_COMMA	reduce by rule 23
+
+
+	.	error
+
+
+state 98:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr TOKER_RAT_ADD expr .  (reduce by rule 22)
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_THEN	reduce by rule 22
+	TOKER_DO	reduce by rule 22
+	TOKER_RAT_ADD	reduce by rule 22
+	TOKER_RAT_SUB	reduce by rule 22
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	reduce by rule 22
+	TOKER_SUB	reduce by rule 22
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	reduce by rule 22
+	TOKER_OR	reduce by rule 22
+	TOKER_EQ	reduce by rule 22
+	TOKER_NE	reduce by rule 22
+	TOKER_LT	reduce by rule 22
+	TOKER_LE	reduce by rule 22
+	TOKER_GT	reduce by rule 22
+	TOKER_GE	reduce by rule 22
+	TOKER_RPAREN	reduce by rule 22
+	TOKER_SEMICOLON	reduce by rule 22
+	TOKER_COMMA	reduce by rule 22
+
+
+	.	error
+
+
+state 99:
+
+	cmd : TOKER_WHILE expr TOKER_DO cmdseq . TOKER_OD 
+
+	TOKER_OD	shift 104
+
+
+	.	error
+
+
+state 100:
+
+	expr : TOKER_LPAREN expr TOKER_RPAREN .  (reduce by rule 26)
+
+	TOKER_THEN	reduce by rule 26
+	TOKER_DO	reduce by rule 26
+	TOKER_RAT_ADD	reduce by rule 26
+	TOKER_RAT_SUB	reduce by rule 26
+	TOKER_RAT_MUL	reduce by rule 26
+	TOKER_RAT_DIV	reduce by rule 26
+	TOKER_ADD	reduce by rule 26
+	TOKER_SUB	reduce by rule 26
+	TOKER_MUL	reduce by rule 26
+	TOKER_DIV	reduce by rule 26
+	TOKER_MOD	reduce by rule 26
+	TOKER_AND	reduce by rule 26
+	TOKER_OR	reduce by rule 26
+	TOKER_EQ	reduce by rule 26
+	TOKER_NE	reduce by rule 26
+	TOKER_LT	reduce by rule 26
+	TOKER_LE	reduce by rule 26
+	TOKER_GT	reduce by rule 26
+	TOKER_GE	reduce by rule 26
+	TOKER_RPAREN	reduce by rule 26
+	TOKER_SEMICOLON	reduce by rule 26
+	TOKER_COMMA	reduce by rule 26
+
+
+	.	error
+
+
+state 101:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : TOKER_FROM_DECIMAL TOKER_LPAREN expr . TOKER_RPAREN 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	shift 105
+
+
+	.	error
+
+
+state 102:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : TOKER_MAKE_RAT TOKER_LPAREN expr . TOKER_COMMA expr TOKER_RPAREN 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_COMMA	shift 106
+
+
+	.	error
+
+
+state 103:
+
+	cmd : TOKER_IF expr TOKER_THEN cmdseq . TOKER_ELSE cmdseq TOKER_FI 
+
+	TOKER_ELSE	shift 107
+
+
+	.	error
+
+
+state 104:
+
+	cmd : TOKER_WHILE expr TOKER_DO cmdseq TOKER_OD .  (reduce by rule 21)
+
+	TOKER_SEMICOLON	reduce by rule 21
+
+
+	.	error
+
+
+state 105:
+
+	expr : TOKER_FROM_DECIMAL TOKER_LPAREN expr TOKER_RPAREN .  (reduce by rule 31)
+
+	TOKER_THEN	reduce by rule 31
+	TOKER_DO	reduce by rule 31
+	TOKER_RAT_ADD	reduce by rule 31
+	TOKER_RAT_SUB	reduce by rule 31
+	TOKER_RAT_MUL	reduce by rule 31
+	TOKER_RAT_DIV	reduce by rule 31
+	TOKER_ADD	reduce by rule 31
+	TOKER_SUB	reduce by rule 31
+	TOKER_MUL	reduce by rule 31
+	TOKER_DIV	reduce by rule 31
+	TOKER_MOD	reduce by rule 31
+	TOKER_AND	reduce by rule 31
+	TOKER_OR	reduce by rule 31
+	TOKER_EQ	reduce by rule 31
+	TOKER_NE	reduce by rule 31
+	TOKER_LT	reduce by rule 31
+	TOKER_LE	reduce by rule 31
+	TOKER_GT	reduce by rule 31
+	TOKER_GE	reduce by rule 31
+	TOKER_RPAREN	reduce by rule 31
+	TOKER_SEMICOLON	reduce by rule 31
+	TOKER_COMMA	reduce by rule 31
+
+
+	.	error
+
+
+state 106:
+
+	expr : TOKER_MAKE_RAT TOKER_LPAREN expr TOKER_COMMA . expr TOKER_RPAREN 
+
+	TOKER_TRUE	shift 48
+	TOKER_FALSE	shift 47
+	TOKER_UMINUS	shift 46
+	TOKER_MAKE_RAT	shift 45
+	TOKER_FROM_DECIMAL	shift 44
+	TOKER_NEGATION	shift 43
+	TOKER_LPAREN	shift 42
+	TOKER_ID	shift 41
+	TOKER_BIGINT	shift 40
+	TOKER_RATIONAL_NUM	shift 39
+
+	expr	goto 108
+
+	.	error
+
+
+state 107:
+
+	cmd : TOKER_IF expr TOKER_THEN cmdseq TOKER_ELSE . cmdseq TOKER_FI 
+
+	TOKER_LBRACE	shift 13
+
+	cmdseq	goto 109
+
+	.	error
+
+
+state 108:
+
+	expr : expr . TOKER_RAT_ADD expr 
+	expr : expr . TOKER_RAT_SUB expr 
+	expr : expr . TOKER_RAT_MUL expr 
+	expr : expr . TOKER_RAT_DIV expr 
+	expr : TOKER_MAKE_RAT TOKER_LPAREN expr TOKER_COMMA expr . TOKER_RPAREN 
+	expr : expr . TOKER_ADD expr 
+	expr : expr . TOKER_SUB expr 
+	expr : expr . TOKER_MUL expr 
+	expr : expr . TOKER_DIV expr 
+	expr : expr . TOKER_MOD expr 
+	expr : expr . TOKER_AND expr 
+	expr : expr . TOKER_OR expr 
+	expr : expr . TOKER_LT expr 
+	expr : expr . TOKER_LE expr 
+	expr : expr . TOKER_GT expr 
+	expr : expr . TOKER_GE expr 
+	expr : expr . TOKER_EQ expr 
+	expr : expr . TOKER_NE expr 
+
+	TOKER_RAT_ADD	shift 71
+	TOKER_RAT_SUB	shift 70
+	TOKER_RAT_MUL	shift 69
+	TOKER_RAT_DIV	shift 68
+	TOKER_ADD	shift 67
+	TOKER_SUB	shift 66
+	TOKER_MUL	shift 65
+	TOKER_DIV	shift 64
+	TOKER_MOD	shift 63
+	TOKER_AND	shift 62
+	TOKER_OR	shift 61
+	TOKER_EQ	shift 60
+	TOKER_NE	shift 59
+	TOKER_LT	shift 58
+	TOKER_LE	shift 57
+	TOKER_GT	shift 56
+	TOKER_GE	shift 55
+	TOKER_RPAREN	shift 110
+
+
+	.	error
+
+
+state 109:
+
+	cmd : TOKER_IF expr TOKER_THEN cmdseq TOKER_ELSE cmdseq . TOKER_FI 
+
+	TOKER_FI	shift 111
+
+
+	.	error
+
+
+state 110:
+
+	expr : TOKER_MAKE_RAT TOKER_LPAREN expr TOKER_COMMA expr TOKER_RPAREN .  (reduce by rule 30)
+
+	TOKER_THEN	reduce by rule 30
+	TOKER_DO	reduce by rule 30
+	TOKER_RAT_ADD	reduce by rule 30
+	TOKER_RAT_SUB	reduce by rule 30
+	TOKER_RAT_MUL	reduce by rule 30
+	TOKER_RAT_DIV	reduce by rule 30
+	TOKER_ADD	reduce by rule 30
+	TOKER_SUB	reduce by rule 30
+	TOKER_MUL	reduce by rule 30
+	TOKER_DIV	reduce by rule 30
+	TOKER_MOD	reduce by rule 30
+	TOKER_AND	reduce by rule 30
+	TOKER_OR	reduce by rule 30
+	TOKER_EQ	reduce by rule 30
+	TOKER_NE	reduce by rule 30
+	TOKER_LT	reduce by rule 30
+	TOKER_LE	reduce by rule 30
+	TOKER_GT	reduce by rule 30
+	TOKER_GE	reduce by rule 30
+	TOKER_RPAREN	reduce by rule 30
+	TOKER_SEMICOLON	reduce by rule 30
+	TOKER_COMMA	reduce by rule 30
+
+
+	.	error
+
+
+state 111:
+
+	cmd : TOKER_IF expr TOKER_THEN cmdseq TOKER_ELSE cmdseq TOKER_FI .  (reduce by rule 20)
+
+	TOKER_SEMICOLON	reduce by rule 20
+
+
+	.	error
+
+
+state 112:
+
+
+	TOKER_EOF	accept
+
+
+	.	error
+
+830 of 1218 action table entries left after compaction
+53 goto table entries

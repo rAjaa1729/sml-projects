@@ -1,0 +1,15 @@
+Group
+is
+    BIGINT.sig
+    bigint.sml
+    rational.sig
+    rational.sml
+    datatypes.sml
+    dict.sml
+    rational_PL0.lex :mllex
+    rational_PL0.yacc : MLYacc
+    compiler.sml
+    rat_exe.sml
+    $/smlnj-lib.cm
+    $/basis.cm (* SML/NJ’s Basis Library. *)
+    $/ml-yacc-lib.cm (* Code written by Lucent. *)

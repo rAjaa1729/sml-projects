@@ -1,0 +1,24 @@
+integer powerResult;
+integer powerArg1,powerArg2;
+
+procedure power
+    integer i;
+    boolean cond;
+    {
+        i:=0;
+        powerResult:=1;
+        cond:=i<powerArg2;
+        while (cond = tt) do
+        {
+            powerResult := powerResult*powerArg1;
+            i := i+1;
+            cond := i<powerArg2;
+        } od;
+    };
+
+{
+    read (powerArg1);
+    read (powerArg2);
+    call power;
+    print(powerResult);
+}

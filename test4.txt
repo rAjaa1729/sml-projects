@@ -1,0 +1,7 @@
+integer n;
+boolean b;
+{
+    read(n);
+    read(b);
+    print((n%2=0) = b);
+}
