@@ -1,2 +1,0 @@
-Skeleton 5
-ae"RationalLexFun"i2aä¢Tokens"gp1c"Rational_TOKENS"f2d"Char"ä¢TextIO"h3aä¢yyInput"jh3aä¢TIO"gp1ÿ<ad"TSIO"gp2ÿd"StreamIO"ad"TPIO"gp1d"TextPrimIO"h0aä¢UserDeclarations"h1aä¢T"gp1ÿbbd2egp1ÿ‚f7d"IO"ÿCÿ‚ÿ‚+d"List"d"Int"d"Vector"Nf0f1ÿ

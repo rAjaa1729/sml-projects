@@ -147,7 +147,7 @@ fun parseblock (exp,scopecurrent,par_scope) =
             (DataTypes.RAT_ADD(a,b)) => (Rational.rat_funadd(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope)))
           | (DataTypes.RAT_MUL(a,b)) => (Rational.rat_mulfun(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope)))
           | (DataTypes.RAT_DIV(a,b)) => (Rational.rat_divfun(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope)))
-          | (DataTypes.MAKE_RAT(a,b)) => (Rational.showDecimal(Rational.Rat_maker(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope))))
+          | (DataTypes.MAKE_RAT(a,b)) => (Rational.showDecimal(Rational.rat_make(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope))))
           | (DataTypes.RAT_SUB(a,b)) => (Rational.rat_subfun(parseblock(a,scopecurrent,par_scope),parseblock(b,scopecurrent,par_scope)))
           | (DataTypes.FROM_DECIMAL(a)) => (parseblock(a,scopecurrent,par_scope))
           | (DataTypes.RREF(a)) => (#1 (lookout(a,scopecurrent)))
@@ -270,14 +270,7 @@ and commandseq_evaluate (C::coms,scopecurrent,par_scope) =
 and command_evaluate (C,scopecurrent,par_scope) =
       ( case C of
           (DataTypes.ASSIGNMENT(a,b)) => (updatevalueofid(a,b,scopecurrent,par_scope))
-        | (DataTypes.PRINT(a)) => 
-                        let
-                              val x=parseblock(a,scopecurrent,par_scope)
-                        in
-                              if x="true" then (writeonfile(!outfile,("tt\n")))
-                              else if x="false" then (writeonfile(!outfile,("ff\n")))
-                              else (writeonfile(!outfile,(x^"\n")))
-                        end
+        | (DataTypes.PRINT(a)) => (print(parseblock(a,scopecurrent,par_scope));print("\n"))
         | (DataTypes.ITE(exp,cmd1,cmd2)) => let
                                     fun ite(exp,cmd1,cmd2,scopecurrent,par_scope) =
                                           let
@@ -314,11 +307,11 @@ and command_evaluate (C,scopecurrent,par_scope) =
 
 
 
-fun interpret(filename,outfile_ )=
-    let 
-       val (DataTypes.PROGRAM prg) = Ratpl0.compile filename  
+fun evaluating filename =
+    let val (DataTypes.PROGRAM prg) = Ratpl0.compile filename
+
     in
-        (outfile:=outfile_ ; evaluate_blk (prg,"main","void") )
+        evaluate_blk (prg,"main","null") 
     end
 
-val it=interpret ("testdata/factorial_power_bool.pl0","outfile.txt");
+val it=evaluating("tt.txt");
