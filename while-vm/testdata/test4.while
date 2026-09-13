@@ -1,0 +1,14 @@
+procedure test4 ::
+    integer x,y,z;
+{
+    x := 5;
+    while x > 0 do {
+        print (x);
+        y := 0;
+        while y < x do {
+            print (y);
+            y := y+1;
+        } od;
+        x := x-1;
+    } od ;
+}

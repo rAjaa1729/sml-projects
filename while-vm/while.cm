@@ -1,0 +1,15 @@
+Library
+    structure Vmc
+is
+    datatypes.sml (* Lot of datatypes *)
+    dict.sml (* symbol table dictionary *)
+    lexer.lex: mllex (* Lexer rules. *)
+    parser.yacc: MLYacc (* Parser rules. *)
+    glue.sml (* Build the parser *)
+    table.sml
+    stack.sml
+    compiler.sml (* Lex, parse, panic... *)
+    vmc.sml
+    $/smlnj-lib.cm
+    $/basis.cm (* SML/NJ’s Basis Library. *)
+    $/ml-yacc-lib.cm (* Code written by Lucent. *)

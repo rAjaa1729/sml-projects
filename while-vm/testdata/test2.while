@@ -1,0 +1,19 @@
+procedure test2 ::
+    integer word1,word2,id;
+    integer x,y,z;
+    boolean a,b,c ;
+{
+
+    while (x<y) && (a<b) do {
+        x := 5;
+        y := z-3;
+        z := z-1;
+        a := b || c;
+    } od;
+    if x = 5 then {
+        y := 2;
+    }
+    else {
+        y := 3;
+    } fi;
+}

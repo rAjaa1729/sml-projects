@@ -1,0 +1,16 @@
+procedure test2 ::
+    integer x,y ;
+    integer z,w;
+{
+    y := 5+2;
+    x := 5;
+    z := (x+5)/3-y;
+
+    if x = 5 then {
+        y := 2;
+    }
+    else {
+        y := 3;
+    } fi;
+
+}

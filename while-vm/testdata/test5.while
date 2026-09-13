@@ -1,0 +1,9 @@
+procedure test5 ::
+    integer x;
+    boolean y;
+    integer z;
+{
+    read (x);
+    read (y);
+    read (z);
+}

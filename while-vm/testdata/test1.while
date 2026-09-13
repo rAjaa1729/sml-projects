@@ -1,0 +1,8 @@
+procedure test ::
+    integer x,y;
+    boolean z;
+{
+    read (x);
+    read (y);
+    print (x+y);
+}
